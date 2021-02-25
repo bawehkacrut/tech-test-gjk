@@ -1,0 +1,23 @@
+version: "2.1"
+services:
+
+    airflow_engine_gjk:
+        build: ./airflow-pipeline
+        container_name: airflow_engine_gjk
+        image: apache/airflow
+        env_file:
+            - .env
+        environment:
+            EXECUTOR: "LocalExecutor"
+        volumes:
+            - vol-airflow-logs:/usr/local/airflow/logs
+            - ./airflow-pipeline/dags:/usr/local/airflow/dags
+            # Uncomment to override airflow.cfgs
+            - ./airflow-pipeline/airflow.cfg:/usr/local/airflow/airflow.cfg
+            # Uncomment to include custom plugins
+            # - ./plugins:/usr/local/airflow/plugins
+        ports:
+            - "8080:8080"
+
+volumes: 
+    vol-airflow-logs:
